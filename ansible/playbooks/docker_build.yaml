@@ -1,0 +1,82 @@
+---
+- name: Build Docker image
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Check Python interpreter
+      command: which python
+      register: result
+      changed_when: false
+    - debug:
+        var: result.stdout_lines
+
+    - name: Update package cache
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      become: true
+      apt:
+        name: 
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+        update_cache: yes
+      when: install_docker == 'yes'
+      register: docker_install  
+
+    - name: Add docker to sudoers
+      become: true
+      command: usermod -aG docker $USER
+      when: docker_install.changed
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      when: docker_install.changed
+
+    - name: Check if dockerfile exists
+      stat:
+          path: "{{ dockerfile_path | default('../') }}"
+      register: dockerfile_stat
+
+    - name: Build Docker image
+      docker_image:
+        name: "{{ docker_registry }}/{{ docker_image_name }}"
+        tag: "{{ app_version }}"
+        source: build
+        build:
+          path: "{{ dockerfile_path | default('../') }}"
+      register: docker_build
+
+    - name: Print Docker build result
+      debug:
+        var: docker_build    
+
+    - name: Login to Docker Hub
+      docker_login:
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
+        registry_url: https://index.docker.io/v1/
+      register: docker_login_result
+
+    - name: Print Docker login result
+      debug:
+        var: docker_login_result
+
+    - name: Push Docker image to Docker Hub
+      docker_image:
+        name: "{{ docker_registry }}/{{ docker_image_name }}"
+        tag: "{{ app_version }}"
+        push: yes
+        source: local
+      register: docker_push
+      
+    - name: Print Docker push result
+      debug:
+        var: docker_push    

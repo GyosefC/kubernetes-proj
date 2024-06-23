@@ -1,0 +1,8 @@
+service:
+  type: ClisterIP
+  metadata:
+    name: grafana-service
+adminUser: admin
+adminPassword: secret
+
+replicas: 2

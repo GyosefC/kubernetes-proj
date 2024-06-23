@@ -1,0 +1,43 @@
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "500Mi"
+  limits:
+    cpu: "500m"
+    memory: "500Mi"
+
+elasticsearch:
+  host: "elasticsearch-master"
+  port: 9200
+
+configMaps:
+  useDefaults:
+    systemInputConf: false
+    containersInputConf: false
+    systemConf: false
+    forwardInputConf: false
+
+extraConfigMaps:
+  systemInputConf: |
+    <source>
+      @type systemd
+      @id input_systemd_kubelet
+      path /var/log/journal
+      pos_file /var/log/fluentd-journald-kubelet.pos
+      tag kubelet
+    </source>
+  containersInputConf: |
+    <source>
+      @type tail
+      @id input_tail_container_logs
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      <parse>
+        @type json
+        time_format %Y-%m-%dT%H:%M:%S.%NZ
+      </parse>
+    </source>

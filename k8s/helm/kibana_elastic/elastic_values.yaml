@@ -1,0 +1,34 @@
+replicas: 1
+
+
+image: "docker.elastic.co/elasticsearch/elasticsearch"
+imageTag: "8.5.1"
+imagePullPolicy: "IfNotPresent"
+
+
+
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "2Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 15Gi
+
+persistence:
+  enabled: true
+  storageClass: "gp2"
+  existingClaim: "elastic-pvc"
+  accessMode: "ReadWriteOnce"
+  size: "15Gi"
+  volumeName: "elastic-pv"
+  annotations: {}
+  labels: {}
+
+protocol: https

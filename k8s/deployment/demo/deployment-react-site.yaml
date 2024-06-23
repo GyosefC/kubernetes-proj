@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-site-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-site
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: react-site
+    spec:
+      containers:
+        - name: react-site
+          image: alexeymihaylovdev/demo:1.1
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: dockerhub    
+
+         
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-site-service
+spec:
+  selector:
+    app: react-site
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+

@@ -1,0 +1,5 @@
+pytube
+boto3
+moviepy
+transformers
+torch

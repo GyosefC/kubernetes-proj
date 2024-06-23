@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example-container
+        image: your-image
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: example-config
+              key: database_url
+        - name: DATABASE_USER
+          valueFrom:
+            configMapKeyRef:
+              name: example-config
+              key: database_user
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: example-config
+              key: database_password
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+          readOnly: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: example-config

@@ -1,0 +1,7 @@
+---
+- hosts: all
+  gather_facts: true 
+  tasks:
+    - name: Print OS information
+      debug:
+        msg: "Operating System is {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}"

@@ -1,0 +1,47 @@
+---
+- hosts: all
+  gather_facts: true
+  tasks:
+
+   
+    - name: Ping hosts
+      ping:
+      register: result
+
+    - name: Create directory
+      file:
+        # path: /home/ubuntu/ansible_test
+        path: "{{ path }}"
+        state: directory
+        owner: "{{ username | default('ubuntu') }}"
+        group: "{{ group }}"
+        mode: '0755'
+      when:
+      - result is success
+      - ansible_facts['distribution'] == 'ubuntu'
+
+      
+
+    - name: Create file
+      file:
+        path: "{{ path_text }}"
+        state: touch
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+      when: 
+      - result is success 
+      - ansible_facts['distribution'] == 'ubuntu'
+
+    - name: Create directory Windows OS
+      win_file:
+          path: "{{ path }}"
+          state: directory 
+      when: 
+      - ansible_facts['distribution'] == 'Windows'   
+
+
+
+# Running this playbook example command ansible-playbook -i hosts.ini -e "path=/home/ubuntu/ansible_test username=ubuntu group=ubuntu path_text=/home/ubuntu/ansible_test/test.txt"  create_dir_with_params.yaml      
+
+# Running this playbook with json  ansible-playbook -i hosts.ini -e "group=ubuntu"  -e "@params.json" create_dir_with_params.yaml

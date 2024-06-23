@@ -1,0 +1,7 @@
+{
+    "path": "/home/ubuntu/ansible_test",
+    "username": "ubuntu",
+    "group": "ubuntu",
+    "path_text": "/home/ubuntu/ansible_test/test.txt"
+
+}

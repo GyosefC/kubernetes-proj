@@ -1,0 +1,79 @@
+version: "3.9"
+services:
+  mongo1:
+    image: mongo:5
+    container_name: mongo1
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'myReplicaSet',members:[{_id:0,host:'mongo1',priority:1},{_id:1,host:'mongo2',priority:0.5},{_id:2,host:'mongo3',priority:0.5}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      retries: 30
+    volumes:
+      - ./mnt:/mnt
+      - ./mongo:/data/db
+    #entrypoint: ["/mnt/mongodb-entrypoint.sh"]
+    command: mongod --replSet myReplicaSet --bind_ip localhost,mongo1
+    ports:
+      - "27017:27017"
+    depends_on:
+      - mongo2
+      - mongo3
+    networks:
+      - project
+    restart: always
+
+  mongo2:
+    image: mongo:5
+    container_name: mongo2
+    command: mongod --replSet myReplicaSet --bind_ip localhost,mongo2
+    ports:
+      - "27018:27017"
+    restart: always
+    networks:
+      - project
+
+  mongo3:
+    image: mongo:5
+    container_name: mongo3
+    command: mongod --replSet myReplicaSet --bind_ip localhost,mongo3
+    ports:
+      - "27019:27017"
+    restart: always
+    networks:
+      - project
+
+  yolo5:
+    image: youssefcarmi92/yolo5:latest
+    container_name: yolo5
+    ports:
+      - "8081:8081"
+    networks:
+      - project
+    # restart: always
+
+  poly:
+    image: youssefcarmi92/polybot:latest
+    container_name: poly
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./polybot/bot.py:/app/bot.py
+      - ./polybot/app.py:/app/app.py
+      - /root/.aws:/root/.aws
+    networks:
+      - project
+    #command: ["sleep","9999"]
+    #restart: always
+
+  ngrok:
+    image: ngrok/ngrok
+    environment:
+      NGROK_AUTHTOKEN: 2eXsWZZou4CkCS7WnZGoQU13B9q_2KVDEdDfUvTkSNVZVsTDg
+    command: ["http", "--domain=prime-wolf-clever.ngrok-free.app", "poly:8443"]
+    networks:
+      - project
+
+networks:
+  project:
+    driver: bridge

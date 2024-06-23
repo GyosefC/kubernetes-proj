@@ -1,0 +1,10 @@
+version: '3'
+services:
+  nexus:
+    image: sonatype/nexus3:latest
+    ports:
+      - "8081:8081"
+    volumes:
+      - nexus-data:/nexus-data  # data storage for Nexus
+volumes:
+  nexus-data:

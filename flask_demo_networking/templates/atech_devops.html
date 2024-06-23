@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atech DevOps</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/loktar00/JQuery-Snowfall@1.7.0/dist/snowfall.jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Atech DevOps!</h1>
+    <p>This is the Atech DevOps page.</p>
+
+    <script>
+        $(document).ready(function() {
+            // Activate snowfall with custom options
+            $(document).snowfall({
+                round: true,
+                shadow: true,
+                minSize: 5,
+                maxSize: 10,
+                flakeCount: 100
+            });
+        });
+    </script>
+</body>
+</html>

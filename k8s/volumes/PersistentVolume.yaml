@@ -1,0 +1,18 @@
+# PersistentVolume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  awsElasticBlockStore:
+    kubectl apply -f sonarqube-pv.yaml    fsType: gp3
+  # nfs:
+  #   path: /tmp
+  #   server: nfs-server.example.com  

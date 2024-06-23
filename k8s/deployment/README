@@ -1,0 +1,7 @@
+1. Install Ingress controler
+
+kubectl apply -f https://projectcontour.io/quickstart/contour.yaml
+
+2. create new namespace <name>
+3. deploy application with kubectl deployment
+4. create ingress-roles ----> to service app

@@ -1,0 +1,22 @@
+<students>
+    <student>
+        <name>Mohammed</name>
+        <age>15</age>
+    </student>
+    <student>
+        <name>Fatima</name>
+        <age>16</age>
+    </student>
+    <student>
+        <name>Ali</name>
+        <age>14</age>
+    </student>
+    <student>
+        <name>Zainab</name>
+        <age>15</age>
+    </student>
+    <student>
+        <name>Ahmed</name>
+        <age>16</age>
+    </student>
+</students>
