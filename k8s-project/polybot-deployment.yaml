@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polybot-deployment
+  namespace: k8s-youssefs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: polybot
+  template:
+    metadata:
+      labels:
+        app: polybot
+    spec:
+      containers:
+        - name: polybot
+          image: youssefcarmi92/k8s_polybot:latest
+          ports:
+            - containerPort: 8080
+          command: ["python3"]
+          args: ["app.py"]
