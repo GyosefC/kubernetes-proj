@@ -1,5 +1,4 @@
 FROM ubuntu as installer
-
 RUN apt-get update \
   && apt-get install -y curl unzip wget vim
 
