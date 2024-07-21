@@ -4,7 +4,7 @@ metadata:
   name: polybot-deployment
   namespace: k8s-youssefs
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: polybot
