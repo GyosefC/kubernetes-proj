@@ -4,7 +4,7 @@ metadata:
   name: yolo5-deployment
   namespace: k8s-youssefs
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: yolo
