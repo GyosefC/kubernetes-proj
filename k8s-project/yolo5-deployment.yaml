@@ -20,3 +20,10 @@ spec:
             - containerPort: 8081
           command: ["python3"]
           args: ["app.py"]
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "128Mi"
+            limits:
+              cpu: "1"
+              memory: "256Mi"
