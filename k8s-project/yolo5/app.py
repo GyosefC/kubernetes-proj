@@ -24,7 +24,7 @@ with open("data/coco128.yaml", "r") as stream:
 
 def consume():
     while True:
-        logger.info(f'**************************starting to consume*******************')
+        logger.info(f'<<<<<<<<<< start consuming SQS queue >>>>>>>>>>')
         response = sqs_client.receive_message(QueueUrl=queue_name, MaxNumberOfMessages=1, WaitTimeSeconds=5)
 
         if 'Messages' in response:
@@ -70,7 +70,7 @@ def consume():
             )
 
             logger.info(
-                f'\n\n\n**********************prediction: {prediction_id}/{original_img_path}. done**********************')
+                f'\n\n\n >>>>>>>>>> prediction: {prediction_id}/{original_img_path}. done <<<<<<<<<<')
 
             # This is the path for the predicted image with labels
             # The predicted image typically includes bounding boxes drawn around the detected objects, along with class labels and possibly confidence scores.

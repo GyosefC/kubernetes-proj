@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: polybot
-          image: youssefcarmi92/k8s_polybot:latest
+          image: youssefcarmi92/k8s_polybot_jenkins:latest
           ports:
             - containerPort: 8080
           command: ["python3"]

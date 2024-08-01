@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: yolo
-          image: youssefcarmi92/k8s_yolo5:latest
+          image: youssefcarmi92/k8s_yolo5_jenkins:latest
           ports:
             - containerPort: 8081
           command: ["python3"]
