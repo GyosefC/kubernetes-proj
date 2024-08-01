@@ -114,7 +114,7 @@ def consume():
 
                 # TODO store the prediction_summary in a DynamoDB table
                 # we need to save the prediction_summary in a DynamoDB table using boto3
-                # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.put_item
+                # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.put_item        
                 try:
                     obj = [item['class'] for item in labels]
                     obj_count=Counter(obj)

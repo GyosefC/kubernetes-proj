@@ -1,6 +1,5 @@
 import json
 import uuid
-
 import boto3
 import telebot
 from botocore.exceptions import NoCredentialsError
@@ -102,6 +101,7 @@ class ObjectDetectionBot(Bot):
             self.send_text(msg['chat']['id'], f'Your image is being processed. Please wait...')
 
     def upload_to_s3(self, local_path, images_bucket):
+        logger.info("Uploading Your in=mage is starting")
         s3 = boto3.client('s3')
         image_id = str(uuid.uuid4())
         image_id = f'{image_id}.jpeg'
